@@ -5,7 +5,6 @@ public class Movement : Action
 {
     public float Speed = 1;
     public float Shift = 3;
-    [Range(0,2)] public float Gravity = 1;
 
     private Movable _movable;
     private Animatorable _animatorable;
@@ -33,7 +32,17 @@ public class Movement : Action
 
         Vector3 velocity = Input.Direction * speed;
 
-        _animatorable.SetAnimation(Name, velocity.magnitude);
-        _movable.SetMovement(velocity, Gravity);
+        _animatorable.SetAnimation(Name, velocity.magnitude);  
+        //_movable.MoveByVelocity(Input.Direction, speed);
+        //_movable.MoveToPosition(Input.Direction, speed);
+
+        if (Input.A == Inputable.Key.Press)
+        {
+            _movable.MoveToPosition(Input.Direction, Shift);
+        }
+        else
+        {
+            _movable.MoveByVelocity(Input.Direction, Speed);
+        }
     }
 }
