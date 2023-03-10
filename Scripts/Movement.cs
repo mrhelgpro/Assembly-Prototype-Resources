@@ -10,7 +10,7 @@ public class Movement : Action
     private Animatorable _animatorable;
     //private Positionable _positionable;
 
-    public override void Initialization()
+    protected override void Initialization()
     {
         _movable = gameObject.GetModel<Movable>();
         _animatorable = gameObject.GetModel<Animatorable>();
@@ -21,6 +21,11 @@ public class Movement : Action
         Activate();
     }
 
+    public override void Enter()
+    {
+        _movable.Gravity = 2;
+    }
+
     public override void UpdateLoop()
     {
 
@@ -28,21 +33,24 @@ public class Movement : Action
 
     public override void FixedLoop()
     {
-        float speed = Speed * (Input.A == Inputable.Key.Press ? Shift : 1);
+        float speed = Input.A == Inputable.Key.Press ? Shift : Speed;
 
-        Vector3 velocity = Input.Direction * speed;
+        float velocity = (Input.Direction * speed).magnitude;
 
-        _animatorable.SetAnimation(Name, velocity.magnitude);  
-        //_movable.MoveByVelocity(Input.Direction, speed);
-        //_movable.MoveToPosition(Input.Direction, speed);
+        _animatorable.SetAnimation(Name, velocity);  
 
         if (Input.A == Inputable.Key.Press)
         {
-            _movable.MoveToPosition(Input.Direction, Shift);
+            _movable.MoveToPosition(Input.Direction, speed);
         }
         else
         {
-            _movable.MoveByVelocity(Input.Direction, Speed);
+            _movable.MoveToDirection(Input.Direction, speed);
         }
+    }
+
+    public override void Exit()
+    {
+
     }
 }
