@@ -18,18 +18,7 @@ public class InputKeyboard : AssemblyActorCore.Input
         float horizontal = UnityEngine.Input.GetAxis("Horizontal");
         float y = GetInput.X == Inputable.Key.Press ? 1 : 0;
 
-        if (Mode == EnumMode.ThirdPerson)
-        {
-            GetInput.Direction = new Vector3(horizontal, y, vertical);
-        }
-        else if (Mode == EnumMode.Platformer)
-        {
-            GetInput.Direction = new Vector3(horizontal, vertical, 0);
-            GetInput.Rotation = new Vector3(horizontal, vertical, 0);
-        }
-        else
-        {
-            GetInput.Direction = new Vector3(horizontal, 0, vertical);
-        }
+        GetInput.Direction = new Vector3(horizontal, y, vertical);
+        //GetInput.Rotation = new Vector3(horizontal, vertical, 0);
     }
 }
